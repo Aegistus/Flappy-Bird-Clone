@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public float jumpForce = 1f;
+    public bool isDead = false;
 
     private Rigidbody rb;
 
@@ -12,13 +13,19 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
     }
-
+    
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Vector3 jumpVector = new Vector3(0, jumpForce, 0);
             rb.AddForce(jumpVector);
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        isDead = true;
+        gameObject.SetActive(false);
     }
 }
